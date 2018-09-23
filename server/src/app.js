@@ -17,17 +17,19 @@ app.use(cors(corsOptions))
 app.use(morgan('combined'))
 
 app.get('/status', (req, res) => {
-  res.send({
+  res.json({
     message: 'hello world'
   })
 })
 
 app.post('/register', (req, res) => {
-  res.send({
+  res.status(200).send({
     message: 'user registered',
     user: req.body.email
   })
 })
 
-app.listen(process.env.SERVER_PORT || 8081)
-console.log('Server up and running on port 8081')
+const port = process.env.SERVER_PORT || 8081
+app.listen(port, () => {
+  console.log(`Server up and running on port ${port}`)
+})
