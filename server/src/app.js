@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const app = express()
+const { sequelize } = require('./models')
 
 let corsOptions = {
   origin: '*',
@@ -16,20 +17,14 @@ app.use(bodyParser.json())
 app.use(cors(corsOptions))
 app.use(morgan('combined'))
 
-app.get('/status', (req, res) => {
-  res.json({
-    message: 'hello world'
-  })
-})
-
-app.post('/register', (req, res) => {
-  res.status(200).send({
-    message: 'user registered',
-    user: req.body.email
-  })
-})
+require('./routes')(app)
 
 const port = process.env.SERVER_PORT || 8081
-app.listen(port, () => {
-  console.log(`Server up and running on port ${port}`)
-})
+
+// Conects sequelize to the configured databese
+sequelize.sync()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server up and running on port ${port}`)
+    })
+  })
