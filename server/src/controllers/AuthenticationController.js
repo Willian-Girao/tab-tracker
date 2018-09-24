@@ -1,7 +1,7 @@
 'use strict'
 const { Users } = require('../models')
 
-class AuthenticationController {
+module.exports = {
   async register (req, res) {
     try {
       const user = await Users.create(req.body)
@@ -13,5 +13,3 @@ class AuthenticationController {
     }
   }
 }
-
-module.exports = new AuthenticationController()

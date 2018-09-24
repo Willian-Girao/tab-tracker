@@ -1,13 +1,9 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
+const JoiRouteValidation = require('./middlewares/JoiRouteValidation')
 
 module.exports = (app) => {
-  app.get('/status', (req, res) => {
-    res.json({
-      message: 'hello world'
-    })
-  })
-
-  app.post('/register', (req, res) => {
-    AuthenticationController.register(req, res)
-  })
+  app.post('/register',
+    JoiRouteValidation.register,
+    AuthenticationController.register
+  )
 }
