@@ -22,7 +22,8 @@
               label="Password"
             ></v-text-field>
           </v-form>
-          <v-btn class="cyan" v-on:click="register">Register</v-btn>
+          <v-btn v-if="pass_check === false && email_check === false" disabled class="cyan" v-on:click="register">Register</v-btn>
+          <v-btn v-else class="cyan" v-on:click="register">Register</v-btn>
         </div>
       </div>
     </v-flex>
@@ -38,14 +39,32 @@ export default {
       password: '',
       error: null,
       visible: false,
+      email_check: false,
+      pass_check: false,
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid' // .test() method tests for a match in a string.
+        v => {
+          if (/.+@.+/.test(v) === false) {
+            return 'E-mail must be valid'
+          }
+          if (!!v === false) {
+            return 'E-mail is required'
+          }
+          this.email_check = true
+        }
       ],
       passwordRules: [
-        v => !!v || 'Password is required',
-        v => (v.length > 4) || 'Password must have length at least 5',
-        v => /^[a-zA-Z0-9]+$/.test(v) || 'Password must contain only letters and/or numbers' // .test() method tests for a match in a string.
+        v => {
+          if (!!v === false) {
+            return 'Password is required'
+          }
+          if (v.length < 5) {
+            return 'Password must have length at least 5'
+          }
+          if (/^[a-zA-Z0-9]+$/.test(v) === false) {
+            return 'Password must contain only letters and/or numbers' // .test() method tests for a match in a string.
+          }
+          this.pass_check = false
+        }
       ]
     }
   },
