@@ -8,7 +8,7 @@ module.exports = {
       res.status(200).send(user.toJSON())
     } catch (error) {
       res.status(400).send({
-        message: 'This is an error.'
+        message: error.errors[0].message
       })
     }
   }

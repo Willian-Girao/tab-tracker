@@ -19,7 +19,7 @@ app.use(morgan('combined'))
 
 require('./routes')(app)
 
-const port = process.env.SERVER_PORT || 8081
+const port = process.env.SERVER_PORT || 8181
 
 // Conects sequelize to the configured databese
 sequelize.sync()
