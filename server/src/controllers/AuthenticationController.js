@@ -5,7 +5,11 @@ const config = require('../config/config')
 
 function jwtSignUser (user) {
   const ONE_WEEK = 60 * 60 * 24 * 7
-  return jwt.sign(user, config.authentication.jwtSecret, {
+  let payload = {
+    id: user.id,
+    email: user.email
+  }
+  return jwt.sign(payload, config.authentication.jwtSecret, {
     expiresIn: ONE_WEEK
   })
 }
@@ -46,7 +50,11 @@ module.exports = {
       }
 
       res.status(200).send({
-        token: jwtSignUser(user.toJSON())
+        token: jwtSignUser(user.toJSON()),
+        user: {
+          id: user.id,
+          email: user.email
+        }
       })
     } catch (error) {
       res.status(500).send({

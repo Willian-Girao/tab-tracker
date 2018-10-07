@@ -12,13 +12,18 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-            <v-btn class="navButton" flat dark @click="navigateTo('login')">
+            <v-btn v-if="!$store.state.isLoggedIn" class="navButton" flat dark @click="navigateTo('login')">
                 Login
             </v-btn>
             </v-toolbar-items>
         <v-toolbar-items>
-            <v-btn class="navButton" flat dark @click="navigateTo('register')">
+            <v-btn v-if="!$store.state.isLoggedIn" class="navButton" flat dark @click="navigateTo('register')">
                 Sign Up
+            </v-btn>
+        </v-toolbar-items>
+        <v-toolbar-items>
+            <v-btn v-if="$store.state.isLoggedIn" class="navButton" flat dark @click="navigateTo('register')">
+                Logout
             </v-btn>
         </v-toolbar-items>
     </v-toolbar>
