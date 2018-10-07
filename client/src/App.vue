@@ -1,17 +1,23 @@
 <template>
   <div id="app">
-    <header>
-      <span>Vue.js PWA</span>
-    </header>
-    <main>
-      <router-view></router-view>
-    </main>
+    <v-app>
+      <page-header></page-header>      
+      <main>
+        <v-container fluid>
+          <router-view></router-view>
+        </v-container>
+      </main>
+    </v-app>
   </div>
 </template>
 
 <script>
+import PageHeader from '@/components/Header.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    PageHeader
+  }
 }
 </script>
 
@@ -51,7 +57,7 @@ header span {
   padding-top: 16px;
 }
 
-.v-messages__message {
+/* .v-messages__message {
   color: brown;
-}
+} */
 </style>

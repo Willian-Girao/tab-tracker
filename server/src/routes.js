@@ -6,4 +6,7 @@ module.exports = (app) => {
     JoiRouteValidation.register,
     AuthenticationController.register
   )
+  app.post('/login',
+    AuthenticationController.login
+  )
 }

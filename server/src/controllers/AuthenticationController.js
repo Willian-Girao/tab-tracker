@@ -1,5 +1,14 @@
 'use strict'
 const { Users } = require('../models')
+const jwt = require('jsonwebtoken')
+const config = require('../config/config')
+
+function jwtSignUser (user) {
+  const ONE_WEEK = 60 * 60 * 24 * 7
+  return jwt.sign(user, config.authentication.jwtSecret, {
+    expiresIn: ONE_WEEK
+  })
+}
 
 module.exports = {
   async register (req, res) {
@@ -8,6 +17,38 @@ module.exports = {
       res.status(200).send(user.toJSON())
     } catch (error) {
       res.status(400).send({
+        message: error.errors[0].message
+      })
+    }
+  },
+  async login (req, res) {
+    try {
+      const { email, password } = req.body
+      const user = await Users.findOne({
+        where: {
+          email: email
+        }
+      })
+      if (!user) {
+        return res.status(403).send({
+          error: 'Invalid login credentials.'
+        })
+      }
+
+      const validPass = password === user.password
+
+      if (!validPass) {
+        return res.status(403).send({
+          error: 'Invalid login credentials.'
+        })
+      }
+
+      res.status(200).send({
+        user: user.toJSON(),
+        token: jwtSignUser(user.toJSON())
+      })
+    } catch (error) {
+      res.status(500).send({
         message: error.errors[0].message
       })
     }
